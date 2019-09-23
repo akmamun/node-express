@@ -8,5 +8,25 @@ const app = express();
 app.use(index);
 const server = http.createServer(app);
 const io = socketIo(server); // < socket!
-const getApiAndEmit = "TODO"
+ const getApiAndEmit = async socket => {
+    try {
+      const res = await axios.get(
+        "https://api.darksky.net/forecast/df2fcf50b8629d14fb87efc604649ad4/37.8267,-122.4233/PUT_YOUR_API_KEY_HERE/43.7695,11.2558"
+      ); // Getting the data from DarkSky
+      socket.emit("FromAPI", res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+    } catch (error) {
+      console.error(`Error: ${error.code}`);
+    }
+  };
+  let interval;
+io.on("connection", socket => {
+  console.log("New client connected");
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(() => getApiAndEmit(socket), 10000);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
 server.listen(port, () => console.log(`Listening on port ${port}`));
