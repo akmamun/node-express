@@ -13,6 +13,9 @@ const options = {
   useCreateIndex: true,
   useFindAndModify: false
 };
+mongoose
+  .connect(url, options)
+  .then(console.log("Databae connecting to", host, port))
+  .catch(err => console.log(err.reason));
 
-mongoose.connect(url, options).catch(err => console.log(err.reason));
-console.log("Establish new connection with url", url);
+mongoose.connection.on("error", console.error.bind(console, "MongoDB connection error:"));
