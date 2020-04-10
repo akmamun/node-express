@@ -4,12 +4,13 @@
  * Module dependencies.
  */
 
-const app = require('../app');
+const app = require('../server');
 const cluster = require('cluster');
 const debug = require('debug')('engine:server');
 const http = require('http');
 const numCPUs = require('os').cpus().length;
-
+//Create HTTP server.
+const server = http.createServer(app);
 /**
  * Get port from environment and store in Express.
  */
@@ -17,13 +18,10 @@ const numCPUs = require('os').cpus().length;
 const port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
 
 if (cluster.isMaster) {
   // Fork workers.
-  for (var i = 0; i < numCPUs; i++) {
+  for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
 
@@ -39,12 +37,6 @@ if (cluster.isMaster) {
   });
 
 } else {
-  /**
-   * Create HTTP server.
-   */
-
-  var server = http.createServer(app);
-
   /**
    * Listen on provided port, on all network interfaces.
    */
