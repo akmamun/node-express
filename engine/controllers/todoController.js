@@ -14,7 +14,13 @@ const addTodo = async (req, res) => {
 };
 
 const getTodos = async (req, res) => {
-  const todos = await Todo.find().sort({ createdAt: -1 }).limit(200);
+  const skip = Number(req.query.skip) || null;
+  const limit = Number(req.query.limit) || 200;
+
+  const todos = await Todo.find()
+    .sort({ createdAt: 1 })
+    .skip(skip)
+    .limit(limit);
   return res.status(200).json(todos);
 };
 

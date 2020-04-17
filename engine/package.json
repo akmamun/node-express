@@ -7,12 +7,12 @@
   },
   "dependencies": {
     "cluster": "^0.7.7",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "~1.4.5",
     "debug": "~4.1.1",
     "dotenv": "^8.2.0",
     "express": "~4.17.1",
-    "mongoose": "^5.9.4",
-    "morgan": "~1.9.1",
+    "mongoose": "^5.9.9",
+    "morgan": "~1.10.0",
     "nodemon": "^2.0.3"
   }
 }
