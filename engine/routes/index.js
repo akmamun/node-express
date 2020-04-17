@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-/* GET home page. */
-router.get("/", async (req, res, next) => {
+const todoRouter = require("./todo");
+
+router.get("/", async (req, res) => {
   res.send({ message: "API home page" });
 });
 
+//bind routes
+
+router.use("/", todoRouter);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-async function db() {
+async function database() {
   const dbName = "databaseName";
   const host = process.env.MONGO_HOST || "0.0.0.0";
   const port = process.env.MONGO_PORT || "27017";
@@ -18,4 +18,4 @@ async function db() {
   db.on("error", (error) => console.log(error));
   db.once("open", () => console.log(`Database connected to ${host}:${port}`));
 }
-module.exports = db;
+module.exports = database;

@@ -13,4 +13,9 @@ const addTodo = async (req, res) => {
   });
 };
 
-module.exports = { addTodo };
+const getTodos = async (req, res) => {
+  const todos = await Todo.find().sort({ createdAt: -1 }).limit(200);
+  return res.status(200).json(todos);
+};
+
+module.exports = { getTodos, addTodo };
