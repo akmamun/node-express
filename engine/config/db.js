@@ -1,6 +1,6 @@
-function db() {
-  const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
+function db() {
   const dbName = "databaseName";
   const host = process.env.MONGO_HOST || "0.0.0.0";
   const port = process.env.MONGO_PORT || "27017";
@@ -10,11 +10,12 @@ function db() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   };
-  mongoose
-    .connect(url, options)
-    .then(console.log(`Database connected to ${host}:${port}`))
-    .catch(err => console.log(err.reason));
+
+  mongoose.connect(url, options);
+  const db = mongoose.connection;
+  db.on("error", (error) => console.log(error));
+  db.once("open", () => console.log(`Database connected to ${host}:${port}`));
 }
 module.exports = db;
