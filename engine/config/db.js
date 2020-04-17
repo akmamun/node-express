@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-function db() {
+async function db() {
   const dbName = "databaseName";
   const host = process.env.MONGO_HOST || "0.0.0.0";
   const port = process.env.MONGO_PORT || "27017";
@@ -13,7 +13,7 @@ function db() {
     useFindAndModify: false,
   };
 
-  mongoose.connect(url, options);
+  await mongoose.connect(url, options);
   const db = mongoose.connection;
   db.on("error", (error) => console.log(error));
   db.once("open", () => console.log(`Database connected to ${host}:${port}`));
