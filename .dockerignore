@@ -1,0 +1,6 @@
+# Node ENV
+src/node_modules
+npm-debug.log
+
+.gitignore
+README.md

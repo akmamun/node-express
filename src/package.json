@@ -1,9 +1,10 @@
 {
   "name": "engine",
-  "version": "0.1beta",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "cluster": "^0.7.7",
