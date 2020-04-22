@@ -13,7 +13,7 @@ const addTodo = async (req, res) => {
   });
 };
 
-const getTodos = async (req, res) => {
+const getTodoList = async (req, res) => {
   const skip = Number(req.query.skip) || null;
   const limit = Number(req.query.limit) || 200;
 
@@ -24,4 +24,25 @@ const getTodos = async (req, res) => {
   return res.status(200).json(todos);
 };
 
-module.exports = { getTodos, addTodo };
+const getTodo = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const todo = await Todo.findById(id);
+    res.status(200).json(todo);
+  } catch (err) {
+    res.status(400).json({ message: "Not FOund" });
+  }
+};
+
+const updateTodo = async (req, res) => {
+  const id = req.params.id;
+  await todo.findByIdAndUpdate(id, (err) => {
+    if (err) {
+      res.status(400).json({ message: err.message });
+    }
+    return res.status(200).json(todo);
+  });
+  // const todo = await Todo.findByIdAndUpdate(id);
+  // return res.status(200).json(todo);
+};
+module.exports = { getTodoList, addTodo, getTodo };
