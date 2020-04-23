@@ -6,10 +6,8 @@ const addTodo = async (req, res) => {
   const todo = new Todo({ title, body, createdAt });
 
   await todo.save((err) => {
-    if (err) {
-      res.status(400).json({ message: err.message });
-    }
-    return res.status(201).json({ message: "Successfuly Added" });
+    if (err) res.status(400).json({ message: err.message });
+    res.status(201).json({ message: "Successfuly Added" });
   });
 };
 
@@ -21,28 +19,23 @@ const getTodoList = async (req, res) => {
     .sort({ createdAt: 1 })
     .skip(skip)
     .limit(limit);
-  return res.status(200).json(todos);
+  res.status(200).json(todos);
 };
 
 const getTodo = async (req, res) => {
   const id = req.params.id;
-  try {
-    const todo = await Todo.findById(id);
+  await Todo.findById(id, (err, todo) => {
+    if (err) res.status(400).json({ message: "400 Not Found" });
     res.status(200).json(todo);
-  } catch (err) {
-    res.status(400).json({ message: "Not FOund" });
-  }
+  });
 };
 
 const updateTodo = async (req, res) => {
   const id = req.params.id;
-  await todo.findByIdAndUpdate(id, (err) => {
-    if (err) {
-      res.status(400).json({ message: err.message });
-    }
-    return res.status(200).json(todo);
+  await Todo.findByIdAndUpdate(id, req.body, { new: true }, (err, todo) => {
+    if (err) res.status(400).json({ message: "400 Not Found" });
+    res.status(201).json(todo);
   });
-  // const todo = await Todo.findByIdAndUpdate(id);
-  // return res.status(200).json(todo);
 };
-module.exports = { getTodoList, addTodo, getTodo };
+
+module.exports = { getTodoList, addTodo, getTodo, updateTodo };
