@@ -38,4 +38,12 @@ const updateTodo = async (req, res) => {
   });
 };
 
-module.exports = { getTodoList, addTodo, getTodo, updateTodo };
+const deleteTodo = async (req, res) => {
+  const id = req.params.id;
+  await Todo.findByIdAndRemove(id, (err) => {
+    if (err) res.status(400).json({ message: "400 Not Found" });
+    res.status(200).json({ message: "Todo remove succesffuly" });
+  });
+};
+
+module.exports = { getTodoList, addTodo, getTodo, updateTodo, deleteTodo };
