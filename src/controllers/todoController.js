@@ -1,14 +1,14 @@
 const Todo = require("../models/Todo");
 
 async function addTodo(req, res) {
-  const { title, body } = req.body;
-
-  const todo = new Todo({ title, body });
-
-  await todo.save((err) => {
-    if (err) res.status(400).json({ message: err.message });
+  try {
+    const { title, body } = req.body;
+    const todo = new Todo({ title, body });
+    await todo.save();
     res.status(201).json({ message: "Successfuly Added" });
-  });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 }
 
 async function getTodoList(req, res) {
@@ -23,27 +23,34 @@ async function getTodoList(req, res) {
 }
 
 async function getTodo(req, res) {
-  const id = req.params.id;
-  await Todo.findById(id, (err, todo) => {
-    if (err) res.status(400).json({ message: "400 Not Found" });
+  try {
+    const id = req.params.id;
+    const todo = await Todo.findById(id);
     res.status(200).json(todo);
-  });
+  } catch {
+    res.status(404).json({ message: "400 Route Not Found" });
+  }
 }
 
 async function updateTodo(req, res) {
   const id = req.params.id;
-  await Todo.findByIdAndUpdate(id, req.body, { new: true }, (err, todo) => {
-    if (err) res.status(400).json({ message: "400 Not Found" });
+
+  try {
+    const todo = await Todo.findByIdAndUpdate(id, req.body, { new: true });
     res.status(201).json(todo);
-  });
+  } catch {
+    res.status(404).json({ message: "400 Route Not Found" });
+  }
 }
 
 async function deleteTodo(req, res) {
-  const id = req.params.id;
-  await Todo.findByIdAndRemove(id, (err) => {
-    if (err) res.status(400).json({ message: "400 Not Found" });
+  try {
+    const id = req.params.id;
+    await Todo.findByIdAndRemove(id);
     res.status(200).json({ message: "Todo remove succesffuly" });
-  });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 }
 
 module.exports = { getTodoList, addTodo, getTodo, updateTodo, deleteTodo };
