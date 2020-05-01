@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const schema = mongoose.Schema;
 
-const todoSchema = new schema(
+const todoSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     body: { type: String, required: true },
@@ -12,5 +11,5 @@ const todoSchema = new schema(
   // { collection: "todos" }
 );
 
-const todoModel = mongoose.model("Todo", todoSchema);
-module.exports = todoModel;
+const model = mongoose.model("Todo", todoSchema);
+module.exports = model;
