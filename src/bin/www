@@ -12,9 +12,10 @@ const numCPUs = require("os").cpus().length;
 //Create HTTP server.
 const server = http.createServer(app);
 /**
- * Get port from environment and store in Express.
+ * Get host and port from environment and store in Express.
  */
 
+const hostname = process.env.PORT || "0.0.0.0"
 const port = normalizePort(process.env.PORT || "4000");
 app.set("port", port);
 
@@ -32,14 +33,17 @@ if (cluster.isMaster) {
 
   // Log when a worker starts listening
   cluster.on("listening", function (worker, address) {
+    console.log("server started", address.port)
     console.log("Worker started with PID " + worker.process.pid + ".");
   });
 } else {
   /**
    * Listen on provided port, on all network interfaces.
    */
+   server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+  });
 
-  server.listen(port);
   server.on("error", onError);
   server.on("listening", onListening);
 }

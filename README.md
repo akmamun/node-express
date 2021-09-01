@@ -18,5 +18,5 @@ sudo sh docker/dockerbuild.sh
 
 ## Run
 
-- Install dependencies `cd src && npm install`
+- Install dependencies `npm install`
 - Run npm start
